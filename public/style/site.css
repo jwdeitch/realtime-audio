@@ -1,0 +1,17 @@
+#canvas-container{
+    margin-top: 20px;
+    border: 1px dashed lightblue;
+    align-content: center;
+    width: 515px;
+}
+.page-header .glyphicon{
+    vertical-align: bottom;
+}
+
+#icon{
+    height: 40px;
+}
+
+#canvas-container {
+    display: inline-block;
+}
