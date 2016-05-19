@@ -1,5 +1,4 @@
 #canvas-container{
-    margin-top: 20px;
     border: 1px dashed lightblue;
     align-content: center;
     width: 515px;
@@ -14,4 +13,40 @@
 
 #canvas-container {
     display: inline-block;
+    margin-right: 20px;
+}
+
+.container {
+    background-color: white;
+    -webkit-box-shadow: 2px 2px 8px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 8px -2px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 8px -2px rgba(0,0,0,0.75);
+    margin-top: 50px;
+}
+
+body {
+    background-color: rgba(59, 117, 134, 0.09);
+}
+
+.start-rec-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.78);
+    border: 4px solid #fff;
+    box-shadow: 0 0 0 5px rgba(255, 0, 0, 0.78);
+    margin-right: 20px;
+}
+
+.start-rec-btn:hover {
+    background-color: rgba(255, 0, 0, 0.64);
+    border: 4px solid #fff;
+    box-shadow: 0 0 0 5px rgba(255, 0, 0, 0.64);
+}
+
+.record-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
 }

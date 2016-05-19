@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="bootstrap-3.2.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/site.css">
 
-    <link rel="icon" type="image/png"  href="img/icon.png">
+    <link rel="icon" type="image/png" href="img/icon.png">
 
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/binary.js"></script>
@@ -17,13 +17,17 @@
 <body>
 <div class="container">
     <div class="page-header">
-      <h1><span class="glyphicon glyphicon-record"></span> RTC.FM</h1>
+        <h1><span class="glyphicon glyphicon-record"></span> RTC.FM</h1>
     </div>
+    <div class="record-container">
+        <button class="btn btn-primary start-rec-btn btn-lg">Rec.</button>
 
-    <button class="btn btn-primary start-rec-btn btn-lg">Start Recording</button>
+        <div id="canvas-container">
+            <canvas width="600" height="100" id="canvas"></canvas>
+        </div>
 
-    <div id="canvas-container">
-        <canvas width="600" height="100" id="canvas"></canvas>
+        <h2>-- / 10 minutes</h2>
+
     </div>
 </div>
 
