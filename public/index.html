@@ -5,11 +5,13 @@
     <title>RTC.fm</title>
 
     <link rel="stylesheet" href="style/site.css">
+    <link rel="stylesheet" href="style/plyr.css">
 
     <link rel="icon" type="image/png" href="img/icon.png">
 
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/binary.js"></script>
+    <script src="js/plyr.js"></script>
     <script src="js/re-sampler.js"></script>
     <script src="js/site.js"></script>
 </head>
@@ -22,10 +24,12 @@
             <canvas width="600" height="100" id="canvas"></canvas>
         </div>
         <div id="linkBox" style="display: none">
-            <input type="text" readonly>
+            <input class="linkInput" type="text" readonly>
+            <audio controls>
+                <source src="https://s3.amazonaws.com/a.rsa.pub/jmLW9lL4DB.wav" type="audio/wav">
+            </audio>
         </div>
-
-        <h2>-- / 10 minutes</h2>
+        <h2 id="timeRemaining">-- / 10 minutes</h2>
 
     </div>
 

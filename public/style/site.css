@@ -47,14 +47,14 @@ body {
     background-color: #F5F8FA;
 }
 
-#linkBox input {
-    width: 438px;
+#linkBox .linkInput {
+    width: 678px;
     height: 50px;
     font-size: 21px;
     border-radius: 3px;
     border: 1px solid #1784f5;
     text-align: center;
-    position: relative;
+    margin-bottom: 20px;
 }
 
 .record {

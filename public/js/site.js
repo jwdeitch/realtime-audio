@@ -98,9 +98,10 @@ $(function () {
 
     $(document.body).on('click', '.stop-rec-btn', function () {
         $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
-        $('#canvas-container').hide();
+        $('#canvas-container, #timeRemaining').hide();
         $('#linkBox').show();
-        $('#linkBox input').val(link);
+        $('#linkBox .linkInput').val(link);
+        plyr.setup();
         close();
     });
 
