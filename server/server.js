@@ -37,11 +37,12 @@ function generateRandomId() {
 wsServer.on('connection', function (client) {
     console.log("new connection...");
     var fileWriter = null;
-    var startTime = Date.now();
+    var curTime = Math.round(new Date().getTime() / 1000);
+    var endTime = curTime + 10;
     var rndId = generateRandomId();
 
-    var userIP = client._socket.upgradeReq.headers.x-real-ip;
-    fs.appendFile('access.log', userIP + "  -  " + new Date().getTime() + " - " + rndId);
+    var userIP = client._socket.upgradeReq.headers['x-forwarded-for'];
+    fs.appendFile('access.log', userIP + "  -  " + curTime + " - " + rndId + "\r\n");
     client.on('stream', function (stream, meta) {
 
         console.log("Stream Start@" + meta.sampleRate + "Hz");
@@ -53,7 +54,16 @@ wsServer.on('connection', function (client) {
             bitDepth: 16
         });
 
-        stream.pipe(fileWriter);
+        stream.on("data", function (data) {
+            fileWriter.write(data);
+            if (endTime < Math.round(new Date().getTime() / 1000)) {
+                console.log("TIME EXPIRED");
+                stream.end();
+                fileWriter.end();
+                client.close();
+            }
+        });
+        // stream.pipe(fileWriter);
     });
 
     client.on('close', function () {
