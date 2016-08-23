@@ -2,6 +2,7 @@ var binaryServer = require('binaryjs').BinaryServer,
     https = require('https'),
     wav = require('wav'),
     fs = require('fs'),
+    AWS = require('aws-sdk'),
     connect = require('connect'),
     serveStatic = require('serve-static');
 
@@ -44,7 +45,7 @@ wsServer.on('connection', function (client) {
     var userIP = client._socket.upgradeReq.headers['x-forwarded-for'];
     fs.appendFile('access.log', userIP + "  -  " + curTime + " - " + rndId + "\r\n");
     client.on('stream', function (stream, meta) {
-        stream.write("https://a.rsa.pub/"+rndId+".wav");
+        stream.write("https://a.rsa.pub/" + rndId + ".wav");
 
         console.log("Stream Start@" + meta.sampleRate + "Hz");
         var fileName = "recordings/" + rndId + ".wav";
@@ -59,13 +60,46 @@ wsServer.on('connection', function (client) {
             fileWriter.write(data);
             if (endTime < Math.round(new Date().getTime() / 1000)) {
                 console.log("TIME EXPIRED");
-                stream.end();
                 fileWriter.end();
+                uploadToS3();
+                stream.write("processing-complete");
+                stream.end();
                 client.close();
             }
         });
         // stream.pipe(fileWriter);
     });
+
+    function uploadToS3() {
+        // http://stackoverflow.com/a/28081647/4603498 thanks to this guy on SO
+        fs.readFile("recordings/" + rndId + ".wav", function (err, data) {
+            if (err) throw err; // Something went wrong!
+            var s3bucket = new AWS.S3({params: {Bucket: 'a.rsa.pub'}});
+            s3bucket.createBucket(function () {
+                var params = {
+                    Key: rndId + ".wav", //file.name doesn't exist as a property
+                    Body: data
+                };
+                s3bucket.upload(params, function (err, data) {
+                    // Whether there is an error or not, delete the temp file
+                    fs.unlink("recordings/" + rndId + ".wav", function (err) {
+                        if (err) {
+                            console.error(err);
+                        }
+                        console.log('Temp File Delete');
+                    });
+
+                    if (err) {
+                        console.log('ERROR MSG: ', err);
+                        // res.status(500).send(err);
+                    } else {
+                        console.log('Successfully uploaded data');
+                        // res.status(200).end();
+                    }
+                });
+            });
+        });
+    }
 
     client.on('close', function () {
         if (fileWriter != null) {
