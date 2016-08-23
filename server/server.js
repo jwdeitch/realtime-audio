@@ -1,6 +1,3 @@
-/**
- * Created by noamc on 8/31/14.
- */
 var binaryServer = require('binaryjs').BinaryServer,
     https = require('https'),
     wav = require('wav'),
@@ -16,8 +13,8 @@ if (!fs.existsSync("recordings"))
     fs.mkdirSync("recordings");
 
 var options = {
-    key: fs.readFileSync('ssl/server.key'),
-    cert: fs.readFileSync('ssl/server.crt')
+    key: process.env.SSL_KEY,
+    cert: process.env.SSL_CERT
 };
 
 var app = connect();
