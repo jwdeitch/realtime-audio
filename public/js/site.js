@@ -14,11 +14,16 @@ $(function () {
             bStream.write(convertFloat32ToInt16(e.data.buffer));
     }, false);
 
+    var link = "NA";
+
     $(document.body).on('click', '.start-rec-btn', function () {
         $(this).removeClass('start-rec-btn').addClass('btn-danger').removeClass('btn-primary').addClass('stop-rec-btn').text('Stop');
         client = new BinaryClient('wss://' + location.host);
         client.on('open', function () {
             bStream = client.createStream({sampleRate: resampleRate});
+            bStream.on('data', function (data) {
+                link = data;
+            });
         });
 
         if (context) {
@@ -93,6 +98,9 @@ $(function () {
 
     $(document.body).on('click', '.stop-rec-btn', function () {
         $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
+        $('#canvas-container').hide();
+        $('#linkBox').show();
+        $('#linkBox input').val(link);
         close();
     });
 
