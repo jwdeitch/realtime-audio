@@ -60,9 +60,6 @@ wsServer.on('connection', function (client) {
             fileWriter.write(data);
             if (endTime < Math.round(new Date().getTime() / 1000)) {
                 console.log("TIME EXPIRED");
-                fileWriter.end();
-                uploadToS3();
-                stream.write("processing-complete");
                 stream.end();
                 client.close();
             }
@@ -101,10 +98,11 @@ wsServer.on('connection', function (client) {
         });
     }
 
-    client.on('close', function () {
+    client.on('close', function (stream) {
         if (fileWriter != null) {
             fileWriter.end();
         }
+        uploadToS3();
         console.log("Connection Closed");
     });
 });
