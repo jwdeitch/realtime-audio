@@ -4,17 +4,14 @@ var binaryServer = require('binaryjs').BinaryServer,
     opener = require('opener'),
     fs = require('fs'),
     connect = require('connect'),
-    serveStatic = require('serve-static'),
-    UAParser = require('./ua-parser');
-
-var uaParser = new UAParser();
+    serveStatic = require('serve-static');
 
 if (!fs.existsSync("recordings"))
     fs.mkdirSync("recordings");
 
 var options = {
-    key: process.env.SSL_KEY,
-    cert: process.env.SSL_CERT
+    key: fs.readFileSync(process.env.SSL_KEY),
+    cert: fs.readFileSync(process.env.SSL_CERT)
 };
 
 var app = connect();
@@ -22,22 +19,36 @@ var app = connect();
 app.use(serveStatic('public'));
 
 var httpServer = https.createServer(options, app);
-httpServer.listen(9191);
+httpServer.listen(443);
 
-opener("https://localhost:9191");
+opener("https://audio.rsa.pub");
 
 var wsServer = binaryServer({server: httpServer});
+
+// http://stackoverflow.com/a/1349426/4603498 thx!
+function generateRandomId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 10; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
+}
 
 wsServer.on('connection', function (client) {
     console.log("new connection...");
     var fileWriter = null;
 
-    var userIP = client._socket.upgradeReq.connection.remoteAddress;
+    var rndId = generateRandomId();
 
+    var userIP = client._socket.upgradeReq.connection.remoteAddress;
+    fs.appendFile('access.log', userIP + "  -  " + new Date().getTime() + " - " + rndId);
     client.on('stream', function (stream, meta) {
 
         console.log("Stream Start@" + meta.sampleRate + "Hz");
-        var fileName = "recordings/" + userIP + "_" + new Date().getTime() + ".wav";
+        var fileName = "recordings/" + rndId + ".wav";
 
         fileWriter = new wav.FileWriter(fileName, {
             channels: 1,

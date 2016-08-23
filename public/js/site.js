@@ -1,7 +1,3 @@
-/**
- * Created by noamc on 8/31/14.
- */
-
 $(function () {
     var client,
         recorder,
@@ -19,7 +15,7 @@ $(function () {
     }, false);
 
     $(document.body).on('click', '.start-rec-btn', function () {
-        $(this).removeClass('start-rec-btn').addClass('btn-danger').removeClass('btn-primary').addClass('stop-rec-btn').text('Stop Recording');
+        $(this).removeClass('start-rec-btn').addClass('btn-danger').removeClass('btn-primary').addClass('stop-rec-btn').text('Stop');
         client = new BinaryClient('wss://' + location.host);
         client.on('open', function () {
             bStream = client.createStream({sampleRate: resampleRate});
@@ -96,7 +92,7 @@ $(function () {
     }
 
     $(document.body).on('click', '.stop-rec-btn', function () {
-        $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Start Recording');
+        $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
         close();
     });
 
