@@ -15,9 +15,12 @@ $(function () {
     }, false);
 
     var link = "NA";
+    var timerInterval = 0;
+    var sec = 0;
 
     $(document.body).on('click', '.start-rec-btn', function () {
         $(this).removeClass('start-rec-btn').addClass('btn-danger').removeClass('btn-primary').addClass('stop-rec-btn').text('Stop');
+        initializeClock();
         client = new BinaryClient('wss://' + location.host);
         client.on('open', function () {
             bStream = client.createStream({sampleRate: resampleRate});
@@ -99,6 +102,9 @@ $(function () {
     $(document.body).on('click', '.stop-rec-btn', function () {
         $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
         $('#canvas-container, #timeRemaining').hide();
+        clearInterval(timerInterval);
+        sec = 0;
+
         $('#linkBox').show();
         $('#linkBox .linkInput').val(link);
         plyr.setup();
@@ -112,6 +118,22 @@ $(function () {
         if (client)
             client.close();
     }
+
+    // Thanks! http://stackoverflow.com/a/38598724/4603498
+    function sectostr(time) {
+        return ~~(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + time % 60;
+    }
+
+    function initializeClock() {
+        timerInterval = setInterval(function () {
+            sec = sec + 1;
+            $("#minutes").html(sectostr(sec));
+            if (sec == 600) {
+                $('.stop-rec-btn').click();
+            }
+        }, 1000);
+    }
+
 });
 
 navigator.getUserMedia = navigator.getUserMedia ||
