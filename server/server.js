@@ -1,7 +1,6 @@
 var binaryServer = require('binaryjs').BinaryServer,
     https = require('https'),
     wav = require('wav'),
-    opener = require('opener'),
     fs = require('fs'),
     connect = require('connect'),
     serveStatic = require('serve-static');
@@ -19,9 +18,7 @@ var app = connect();
 app.use(serveStatic('public'));
 
 var httpServer = https.createServer(options, app);
-httpServer.listen(443);
-
-opener("https://audio.rsa.pub");
+httpServer.listen(9191);
 
 var wsServer = binaryServer({server: httpServer});
 
@@ -40,10 +37,10 @@ function generateRandomId() {
 wsServer.on('connection', function (client) {
     console.log("new connection...");
     var fileWriter = null;
-
+    var startTime = Date.now();
     var rndId = generateRandomId();
 
-    var userIP = client._socket.upgradeReq.connection.remoteAddress;
+    var userIP = client._socket.upgradeReq.headers.x-real-ip;
     fs.appendFile('access.log', userIP + "  -  " + new Date().getTime() + " - " + rndId);
     client.on('stream', function (stream, meta) {
 
