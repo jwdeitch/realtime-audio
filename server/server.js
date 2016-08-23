@@ -39,7 +39,7 @@ wsServer.on('connection', function (client) {
     console.log("new connection...");
     var fileWriter = null;
     var curTime = Math.round(new Date().getTime() / 1000);
-    var endTime = curTime + 10;
+    var endTime = curTime + 600;
     var rndId = generateRandomId();
 
     var userIP = client._socket.upgradeReq.headers['x-forwarded-for'];

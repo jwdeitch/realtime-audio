@@ -99,15 +99,42 @@ $(function () {
         }
     }
 
+    // thanks! http://stackoverflow.com/a/17936490/4603498
+    function sleepFor( sleepDuration ){
+        var now = new Date().getTime();
+        while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+    }
+
     $(document.body).on('click', '.stop-rec-btn', function () {
         $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
         $('#canvas-container, #timeRemaining').hide();
         clearInterval(timerInterval);
         sec = 0;
-
         $('#linkBox').show();
         $('#linkBox .linkInput').val(link);
-        plyr.setup();
+        $('.review').html('<div class="ui active centered inline loader"></div>');
+        callCloudFront();
+        function callCloudFront() {
+            $.ajax({
+                type: 'HEAD',
+                url: link,
+                async: false,
+                success: function (msg) {
+                    $('.review').html('<audio controls><source src="NA" type="audio/wav"></audio>');
+                    players = plyr.setup();
+                    players[0].source({
+                        sources: [{
+                            src: link,
+                            type: 'audio/wav'
+                        }]
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    sleepFor(1000);
+                    callCloudFront();
+                }
+            });
+        }
         close();
     });
 
