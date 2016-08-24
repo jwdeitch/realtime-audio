@@ -75,7 +75,8 @@ wsServer.on('connection', function (client) {
             s3bucket.createBucket(function () {
                 var params = {
                     Key: rndId + ".wav", //file.name doesn't exist as a property
-                    Body: data
+                    Body: data,
+                    ContentType: "audio/wav"
                 };
                 s3bucket.upload(params, function (err, data) {
                     // Whether there is an error or not, delete the temp file

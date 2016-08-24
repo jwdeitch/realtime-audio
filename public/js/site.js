@@ -100,9 +100,10 @@ $(function () {
     }
 
     // thanks! http://stackoverflow.com/a/17936490/4603498
-    function sleepFor( sleepDuration ){
+    function sleepFor(sleepDuration) {
         var now = new Date().getTime();
-        while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+        while (new Date().getTime() < now + sleepDuration) { /* do nothing */
+        }
     }
 
     $(document.body).on('click', '.stop-rec-btn', function () {
@@ -113,13 +114,15 @@ $(function () {
         $('#linkBox').show();
         $('#linkBox .linkInput').val(link);
         $('.review').html('<div class="ui active centered inline loader"></div>');
-        callCloudFront();
-        function callCloudFront() {
+        close();
+        var refreshTimeout = setInterval(function() {
             $.ajax({
-                type: 'HEAD',
+                type: 'GET',
                 url: link,
+                dataType: 'jsonp',
                 async: false,
                 success: function (msg) {
+                    clearTimeout(refreshTimeout);
                     $('.review').html('<audio controls><source src="NA" type="audio/wav"></audio>');
                     players = plyr.setup();
                     players[0].source({
@@ -130,12 +133,10 @@ $(function () {
                     });
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    sleepFor(1000);
-                    callCloudFront();
+                    console.log("no cloudfront yet")
                 }
             });
-        }
-        close();
+        },1000);
     });
 
     function close() {
