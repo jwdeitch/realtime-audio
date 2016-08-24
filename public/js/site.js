@@ -99,13 +99,6 @@ $(function () {
         }
     }
 
-    // thanks! http://stackoverflow.com/a/17936490/4603498
-    function sleepFor(sleepDuration) {
-        var now = new Date().getTime();
-        while (new Date().getTime() < now + sleepDuration) { /* do nothing */
-        }
-    }
-
     $(document.body).on('click', '.stop-rec-btn', function () {
         $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
         $('#canvas-container, #timeRemaining').hide();
