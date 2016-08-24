@@ -115,29 +115,15 @@ $(function () {
         $('#linkBox .linkInput').val(link);
         $('.review').html('<div class="ui active centered inline loader"></div>');
         close();
-        var refreshTimeout = setInterval(function() {
-            $.ajax({
-                type: 'GET',
-                url: link,
-                dataType: 'jsonp',
-                async: false,
-                success: function (msg) {
-                    clearTimeout(refreshTimeout);
-                    $('.review').html('<audio controls><source src="NA" type="audio/wav"></audio>');
-                    players = plyr.setup();
-                    players[0].source({
-                        sources: [{
-                            src: link,
-                            type: 'audio/wav'
-                        }]
-                    });
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log("no cloudfront yet")
-                }
-            });
-        },1000);
+        showPlayer();
     });
+
+    function showPlayer() {
+        setTimeout(function () {
+            $('.review').html('<audio controls><source src=' + link + ' type="audio/wav"></audio>');
+            players = plyr.setup();
+        }, 2000);
+    }
 
     function close() {
         console.log('close');
