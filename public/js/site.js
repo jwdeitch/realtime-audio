@@ -110,19 +110,19 @@ $(function () {
         $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
         $('#canvas-container, #timeRemaining').hide();
         clearInterval(timerInterval);
-        sec = 0;
         $('#linkBox').show();
         $('#linkBox .linkInput').val(link);
         $('.review').html('<div class="ui active centered inline loader"></div>');
         close();
-        showPlayer();
+        showPlayer(sec);
+        sec = 0;
     });
 
     function showPlayer() {
         setTimeout(function () {
             $('.review').html('<audio controls><source src=' + link + ' type="audio/wav"></audio>');
             players = plyr.setup();
-        }, 2000);
+        }, 3000);
     }
 
     function close() {
