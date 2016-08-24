@@ -25,7 +25,12 @@ $(function () {
         client.on('open', function () {
             bStream = client.createStream({sampleRate: resampleRate});
             bStream.on('data', function (data) {
-                link = data;
+                if (data == "s3UploadComplete") {
+                    console.log("s3UploadComplete");
+                    showPlayer();
+                } else {
+                    link = data;
+                }
             });
         });
 
@@ -101,21 +106,18 @@ $(function () {
 
     $(document.body).on('click', '.stop-rec-btn', function () {
         $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
+        close();
         $('#canvas-container, #timeRemaining').hide();
         clearInterval(timerInterval);
         $('#linkBox').show();
         $('#linkBox .linkInput').val(link);
         $('.review').html('<div class="ui active centered inline loader"></div>');
-        close();
-        showPlayer(sec);
         sec = 0;
     });
 
     function showPlayer() {
-        setTimeout(function () {
-            $('.review').html('<audio controls><source src=' + link + ' type="audio/wav"></audio>');
-            players = plyr.setup();
-        }, 3000);
+        $('.review').html('<audio controls><source src=' + link + ' type="audio/wav"></audio>');
+        players = plyr.setup();
     }
 
     function close() {
@@ -123,7 +125,8 @@ $(function () {
         if (recorder)
             recorder.disconnect();
         if (client)
-            client.close();
+            bStream.write("stopSignal");
+        // client.close();
     }
 
     // Thanks! http://stackoverflow.com/a/38598724/4603498

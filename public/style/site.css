@@ -28,6 +28,7 @@
     padding: 20px;
     width: 67%;
     margin: 50px auto;
+    min-width: 785px;
     border-radius: 3px;
 }
 
