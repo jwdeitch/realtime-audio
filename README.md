@@ -13,7 +13,10 @@ run:
 
 ---
 
-Credit to [noamtcohen/AudioStreamer](https://github.com/noamtcohen/AudioStreamer)
+Credit to 
+- [jquery](https://jquery.com/)
+- [BinaryJS](https://github.com/binaryjs/binaryjs)
+- [noamtcohen/AudioStreamer](https://github.com/noamtcohen/AudioStreamer)
 
 ---
 
