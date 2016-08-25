@@ -1,14 +1,11 @@
 package main
 
 import (
-	//"fmt"
-	"net/http"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/aws/session"
 
-	//"encoding/json"
+	"net/http"
 	"sort"
 	"fmt"
 	"encoding/json"
@@ -51,7 +48,7 @@ func recent(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println("port 8181")
+	fmt.Println("port 8081")
 	http.HandleFunc("/recent", recent)
 	http.ListenAndServe(":8081", nil)
 }
