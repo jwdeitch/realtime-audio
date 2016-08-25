@@ -1,7 +1,7 @@
-AudioStreamer
+Real-time audio streaming
 =============
 
-HTML5 realtime audio streaming to nodejs
+HTML5 real-time audio streaming to nodejs w/ binaryJS
 ----------------------------------------
 
 
@@ -12,5 +12,5 @@ install dependencies:
 run:
 
     npm start
-    
-    
+
+
