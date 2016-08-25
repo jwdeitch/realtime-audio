@@ -32,6 +32,8 @@ func (s s3Object) Less(i, j int) bool {
 
 func recent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+
 	svc := s3.New(session.New(), &aws.Config{Region: aws.String("us-east-1")})
 	objectList, _ := svc.ListObjectsV2(&s3.ListObjectsV2Input{
 		Bucket: aws.String("a.rsa.pub")})
