@@ -94,8 +94,10 @@ wsServer.on('connection', function (client) {
                     console.log('Successfully uploaded data');
                     stream.write("s3UploadComplete");
                 }
-                stream.end();
-                client.close();
+                setTimeout(function () {
+                    client.close();
+                    stream.end();
+                }, 1000);
             });
         });
     }

@@ -25,6 +25,7 @@ $(function () {
         client.on('open', function () {
             bStream = client.createStream({sampleRate: resampleRate});
             bStream.on('data', function (data) {
+                console.log(data);
                 if (data == "s3UploadComplete") {
                     console.log("s3UploadComplete");
                     showPlayer();
@@ -110,7 +111,7 @@ $(function () {
         $('#canvas-container, #timeRemaining').hide();
         clearInterval(timerInterval);
         $('#linkBox').show();
-        $('#linkBox .linkInput').val(link);
+        $('#linkBox .linkInput').val(link).focus().select().focus(function() { $(this).select(); } );
         $('.review').html('<div class="ui active centered inline loader"></div>');
         sec = 0;
     });
