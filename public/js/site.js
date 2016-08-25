@@ -4,9 +4,14 @@ $(function () {
         context,
         bStream,
         contextSampleRate = (new AudioContext()).sampleRate;
+
+    $.get( "https://svc.rsa.pub/recent", function( data ) {
+        console.log(data);
+    });
+
     resampleRate = contextSampleRate;
     worker = new Worker('js/worker/resampler-worker.js');
-    //https://svc.rsa.pub/recent
+
     worker.postMessage({cmd: "init", from: contextSampleRate, to: resampleRate});
 
     worker.addEventListener('message', function (e) {
