@@ -37,13 +37,14 @@ func recent(w http.ResponseWriter, r *http.Request) {
 	svc := s3.New(session.New(), &aws.Config{Region: aws.String("us-east-1")})
 	objectList, _ := svc.ListObjectsV2(&s3.ListObjectsV2Input{
 		Prefix: aws.String("r/"),
-		Bucket: aws.String("a.rsa.pub"),
-		Delimiter: aws.String("/")})
+		Bucket: aws.String("a.rsa.pub")})
 
 	var objects s3Object
 
 	for _, obj := range objectList.Contents {
-		objects = append(objects, object{*obj.Key, *obj.LastModified, *obj.Size})
+		if string(*obj.Key[len(*obj.Key) - 1:]) != "/" { // if not a dir
+			objects = append(objects, object{*obj.Key, *obj.LastModified, *obj.Size})
+		}
 	}
 
 	sort.Sort(objects)
