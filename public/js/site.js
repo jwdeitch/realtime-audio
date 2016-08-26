@@ -7,7 +7,6 @@ $(function () {
 
     $.get("https://svc.rsa.pub/recent", function (data) {
         $.each(data, function (key, data) {
-            data = data.reverse();
             $('.recent').append('<div class="col-1-3 centered"><div class="content"><audio controls><source src="https://a.rsa.pub/' + data.Key + '" type="audio/wav"></audio></div></div>')
         });
         plyr.setup();
