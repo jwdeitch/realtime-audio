@@ -27,7 +27,15 @@ $(function () {
     var sec = 0;
 
     $(document.body).on('click', '.start-rec-btn', function () {
-        $(this).removeClass('start-rec-btn').addClass('btn-danger').removeClass('btn-primary').addClass('stop-rec-btn').text('Stop');
+        $(this).removeClass('start-rec-btn')
+            .addClass('btn-danger')
+            .removeClass('btn-primary')
+            .addClass('stop-rec-btn')
+            .text('Stop');
+        $('#canvas-container, #timeRemaining').show();
+        $('#linkBox').hide();
+        $('#minutes').html('0:00');
+        $('.review').html('');
         initializeClock();
         client = new BinaryClient('wss://audio.rsa.pub');
         client.on('open', function () {
@@ -114,7 +122,11 @@ $(function () {
     }
 
     $(document.body).on('click', '.stop-rec-btn', function () {
-        $(this).removeClass('stop-rec-btn').removeClass('btn-danger').addClass('btn-primary').addClass('start-rec-btn').text('Rec.');
+        $(this).removeClass('stop-rec-btn')
+            .removeClass('btn-danger')
+            .addClass('btn-primary')
+            .addClass('start-rec-btn')
+            .text('Rec.');
         close();
         $('#canvas-container, #timeRemaining').hide();
         clearInterval(timerInterval);
