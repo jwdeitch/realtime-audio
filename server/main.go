@@ -36,6 +36,7 @@ func recent(w http.ResponseWriter, r *http.Request) {
 
 	svc := s3.New(session.New(), &aws.Config{Region: aws.String("us-east-1")})
 	objectList, _ := svc.ListObjectsV2(&s3.ListObjectsV2Input{
+		Prefix: aws.String("r/"),
 		Bucket: aws.String("a.rsa.pub")})
 
 	var objects s3Object

@@ -45,7 +45,7 @@ wsServer.on('connection', function (client) {
     var userIP = client._socket.upgradeReq.headers['x-forwarded-for'];
     fs.appendFile('access.log', userIP + "  -  " + curTime + " - " + rndId + "\r\n");
     client.on('stream', function (stream, meta) {
-        stream.write("https://a.rsa.pub/" + rndId + ".wav");
+        stream.write("https://a.rsa.pub/r/" + rndId + ".wav");
 
         console.log("Stream Start@" + meta.sampleRate + "Hz");
         var fileName = "recordings/" + rndId + ".wav";
@@ -75,7 +75,7 @@ wsServer.on('connection', function (client) {
         var s3bucket = new AWS.S3({params: {Bucket: 'a.rsa.pub'}});
         s3bucket.createBucket(function () {
             var params = {
-                Key: rndId + ".wav", //file.name doesn't exist as a property
+                Key: "r/" + rndId + ".wav", //file.name doesn't exist as a property
                 Body: fs.readFileSync("recordings/" + rndId + ".wav"),
                 ContentType: "audio/wav"
             };
