@@ -5,11 +5,11 @@ $(function () {
         bStream,
         contextSampleRate = (new AudioContext()).sampleRate;
 
-    $.get( "https://svc.rsa.pub/recent", function( data ) {
-        $.each(data, function(key, data) {
-            console.log(key, data);
+    $.get("https://svc.rsa.pub/recent", function (data) {
+        $.each(data, function (key, data) {
             $('.recent').append('<div class="col-1-3 centered"><div class="content"><audio controls><source src="https://a.rsa.pub/' + data.Key + '" type="audio/wav"></audio></div></div>')
         });
+        plyr.setup();
     });
 
     resampleRate = contextSampleRate;
@@ -119,14 +119,16 @@ $(function () {
         $('#canvas-container, #timeRemaining').hide();
         clearInterval(timerInterval);
         $('#linkBox').show();
-        $('#linkBox .linkInput').val(link).focus().select().focus(function() { $(this).select(); } );
+        $('#linkBox .linkInput').val(link).focus().select().focus(function () {
+            $(this).select();
+        });
         $('.review').html('<div class="ui active centered inline loader"></div>');
         sec = 0;
     });
 
     function showPlayer() {
         $('.review').html('<audio controls><source src=' + link + ' type="audio/wav"></audio>');
-        players = plyr.setup();
+        plyr.setup('.review');
     }
 
     function close() {
