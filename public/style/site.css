@@ -57,10 +57,18 @@
     font-size: 25px;
 }
 
+.review .plyr--audio .plyr__controls {
+    padding: 10px;
+    border-radius: inherit;
+    background: #FAFAFA;
+    border: 1px solid #dbe3e8;
+    color: #565D64;
+}
+
 .recent .plyr--audio .plyr__controls {
     padding: 1px 4px 1px 4px;
     border-radius: inherit;
-    background: #fff;
+    background: #FAFAFA;
     border: 1px solid #dbe3e8;
     color: #565D64;
 }
