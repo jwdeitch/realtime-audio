@@ -73,6 +73,16 @@
     color: #565D64;
 }
 
+.nsfw {
+    position: relative;
+    top: 16px;
+    border: 1px solid #ffd5d5;
+    background-color: #fff3f3;
+    color: #ff4a4a;
+    padding: 0 9px 0 6px;
+    box-shadow: 10px 0px 0 #fff;
+}
+
 .footer {
     width: 70%;
     text-align:center;
