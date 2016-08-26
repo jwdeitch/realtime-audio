@@ -42,8 +42,9 @@ func recent(w http.ResponseWriter, r *http.Request) {
 	var objects s3Object
 
 	for _, obj := range objectList.Contents {
-		if string(*obj.Key[len(*obj.Key) - 1:]) != "/" { // if not a dir
-			objects = append(objects, object{*obj.Key, *obj.LastModified, *obj.Size})
+		key := *obj.Key
+		if string(key[len(key) - 1:]) != "/" { // if not a dir
+			objects = append(objects, object{key, *obj.LastModified, *obj.Size})
 		}
 	}
 
