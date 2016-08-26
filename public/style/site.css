@@ -47,6 +47,10 @@
     color: grey;
 }
 
+.centered {
+    text-align: center;
+}
+
 .record {
     color: white;
     font-size: 25px;

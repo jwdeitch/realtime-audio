@@ -16,8 +16,6 @@ var options = {
 
 var app = connect();
 
-app.use(serveStatic('public'));
-
 var httpServer = https.createServer(options, app);
 httpServer.listen(9191);
 

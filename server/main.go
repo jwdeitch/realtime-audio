@@ -46,7 +46,12 @@ func recent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sort.Sort(objects)
-	response, _ := json.Marshal(objects)
+	var max int = 6
+	if len(objects) < 6 {
+		max = len(objects)
+	}
+
+	response, _ := json.Marshal(objects[:max])
 
 	fmt.Fprintf(w, string(response))
 }
