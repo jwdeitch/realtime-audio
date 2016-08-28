@@ -43,7 +43,7 @@ wsServer.on('connection', function (client) {
     var userIP = client._socket.upgradeReq.headers['x-forwarded-for'];
     fs.appendFile('access.log', userIP + "  -  " + curTime + " - " + rndId + "\r\n");
     client.on('stream', function (stream, meta) {
-        stream.write("https://a.rsa.pub/r/" + rndId + ".wav");
+        stream.write("https://SITE/r/" + rndId + ".wav");
 
         console.log("Stream Start@" + meta.sampleRate + "Hz");
         var fileName = "recordings/" + rndId + ".wav";

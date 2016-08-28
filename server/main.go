@@ -27,7 +27,7 @@ func (s s3Object) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 func (s s3Object) Less(i, j int) bool {
-	return s[i].LastModified.Unix() < s[j].LastModified.Unix()
+	return s[i].LastModified.Unix() > s[j].LastModified.Unix()
 }
 
 func recent(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +37,7 @@ func recent(w http.ResponseWriter, r *http.Request) {
 	svc := s3.New(session.New(), &aws.Config{Region: aws.String("us-east-1")})
 	objectList, _ := svc.ListObjectsV2(&s3.ListObjectsV2Input{
 		Prefix: aws.String("r/"),
-		Bucket: aws.String("a.rsa.pub")})
+		Bucket: aws.String(BUCKET)})
 
 	var objects s3Object
 
