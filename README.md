@@ -1,4 +1,4 @@
-##Real-time audio streaming [Demo](https://audio.rsa.pub)
+##Real-time audio streaming [Demo](https://a.rsa.pub)
 
 #####HTML5 real-time audio streaming to nodejs w/ binaryJS
 
